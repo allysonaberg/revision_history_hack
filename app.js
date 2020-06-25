@@ -3,49 +3,63 @@ const app = express()
 const port = 3000
 
 //***********   SIMPLE-GIT STUFF ****************//
-const simpleGit = require('simple-git')
-const git = simpleGit();
+// Simple-git without promise 
+const simpleGit = require('simple-git')();
+// Shelljs package for running shell tasks optional
+
+const shellJs = require('shelljs');
+// Simple Git with Promise for handling success and failure
+
 const simpleGitPromise = require('simple-git/promise')();
 
-const repo = 'splunk_hackathon_TEST';
+// change current directory to repo directory in local
+shellJs.cd('~/splunk_hackathon');
+// Repo name
+const repo = 'splunk_hackathon';  //Repo name
+// User name and password of your GitHub
 const userName = 'allysonaberg';
 const password = 'Bunny-7897';
-const githubURL = `https://${userName}:${password}@github.com/${userName}/${repo}`;
+// Set up GitHub url like this so no manual entry of user pass needed
+const gitHubUrl = `https://${userName}:${password}@github.com/${userName}/${repo}`;
+// add local git config like username and email
 
-git.addConfig('user.email', 'allya7897@gmail.com');
-git.addConfig('user.name', 'Allyson Aberg');
+//simpleGit.addConfig('user.email', 'balvinder294@gmail.com');
+//simpleGit.addConfig('user.name', 'Balvinder Singh');
 
-git.addRemote('origin', githubURL);
+// Add remore repo url as origin to repo
 
-require('simple-git')()
-    .init()
-    .add('./*')
-    .commit("first commit!")
-    .addRemote('origin', githubURL)
-    .push('origin', 'master');
+//simpleGitPromise.addRemote('origin', gitHubUrl);
 
-//simpleGitPromise.add('/test.xml')
-//    .then(
-//        (addSuccess) => {
-//            console.log(addSuccess);
-//        }, (failedAdd) => {
-//            console.log('adding files failed');
-//    });
-//// Commit files as Initial Commit
-//simpleGitPromise.commit('Intial commit by simplegit')
-//    .then(
-//        (successCommit) => {
-//            console.log(successCommit);
-//        }, (failed) => {
-//            console.log('failed commmit');
-//        });
-//// Finally push to online repository
-//simpleGitPromise.push('origin', 'master')
-//    .then((success) => {
-//        console.log('repo successfully pushed');
-//    }, (failed) => {
-//        console.log('repo push failed');
-//    });
+// Add all files for commit
+
+simpleGitPromise.add('.')
+    .then(
+        (addSuccess) => {
+            console.log(addSuccess);
+        }, (failedAdd) => {
+            console.log('adding files failed');
+        });
+// Commit files as Initial Commit
+simpleGitPromise.commit('Intial commit by simplegit')
+    .then(
+        (successCommit) => {
+            console.log(successCommit);
+        }, (failed) => {
+            console.log('failed commmit');
+        });
+// Finally push to online repository
+simpleGitPromise.push('origin', 'master')
+    .then((success) => {
+        console.log('repo successfully pushed');
+    }, (failed) => {
+        console.log('repo push failed');
+    });
+
+
+app.get('/', async (req, res) => {
+
+
+});
 
 //***********   GITHUB STUFF ****************//
 //var github = require('octonode')
@@ -71,41 +85,6 @@ require('simple-git')()
 //    });
 
 
-
-//    //GET LOG
-
-
-//    // GET DIFF
-
-//    // REVERT
-
-
-//})
-
-
-//***********  BITBUCKET STUFF ****************//
-//const { Bitbucket } = require('bitbucket')
-//const bitbucket = new Bitbucket()
-
-//const clientOptions = {
-//    auth: {
-//        token: 'NjQ5OTkwNDM3NjE2OuH2FPZjF1/dZTUnYhJc948FtCYp',
-//    },
-//}
-
-//const bitbucket = new Bitbucket(clientOptions)
-
-//app.get('/', async (req, res) => {
-
-//    // PUSH CONTENT
-//    ghrepo.createContents('test2.xml', 'creating test 2', 'this is my content', (err) => {
-//        if (err == null) {
-//            console.log("complete");
-//        }
-//        else {
-//            console.log("error");
-//        }
-//    });
 
 //    //GET LOG
 
